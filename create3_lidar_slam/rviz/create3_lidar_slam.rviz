@@ -5,9 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 639
+    Tree Height: 610
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -42,129 +41,9 @@ Visualization Manager:
       Plane Cell Count: 100
       Reference Frame: <Fixed Frame>
       Value: true
-    - Class: rviz_default_plugins/TF
-      Enabled: true
-      Frame Timeout: 15
-      Frames:
-        All Enabled: false
-        base_footprint:
-          Value: true
-        base_link:
-          Value: false
-        bump_front_center:
-          Value: false
-        bump_front_left:
-          Value: false
-        bump_front_right:
-          Value: false
-        bump_left:
-          Value: false
-        bump_right:
-          Value: false
-        button_1:
-          Value: false
-        button_2:
-          Value: false
-        button_power:
-          Value: false
-        cliff_front_left:
-          Value: false
-        cliff_front_right:
-          Value: false
-        cliff_side_left:
-          Value: false
-        cliff_side_right:
-          Value: false
-        ir_intensity_front_center_left:
-          Value: false
-        ir_intensity_front_center_right:
-          Value: false
-        ir_intensity_front_left:
-          Value: false
-        ir_intensity_front_right:
-          Value: false
-        ir_intensity_left:
-          Value: false
-        ir_intensity_right:
-          Value: false
-        ir_intensity_side_left:
-          Value: false
-        ir_omni:
-          Value: false
-        laser_frame:
-          Value: false
-        left_wheel:
-          Value: false
-        map:
-          Value: false
-        mouse:
-          Value: false
-        odom:
-          Value: false
-        right_wheel:
-          Value: false
-      Marker Scale: 1
-      Name: TF
-      Show Arrows: true
-      Show Axes: true
-      Show Names: false
-      Tree:
-        map:
-          {}
-        odom:
-          base_footprint:
-            laser_frame:
-              {}
-          base_link:
-            bump_front_center:
-              {}
-            bump_front_left:
-              {}
-            bump_front_right:
-              {}
-            bump_left:
-              {}
-            bump_right:
-              {}
-            button_1:
-              {}
-            button_2:
-              {}
-            button_power:
-              {}
-            cliff_front_left:
-              {}
-            cliff_front_right:
-              {}
-            cliff_side_left:
-              {}
-            cliff_side_right:
-              {}
-            ir_intensity_front_center_left:
-              {}
-            ir_intensity_front_center_right:
-              {}
-            ir_intensity_front_left:
-              {}
-            ir_intensity_front_right:
-              {}
-            ir_intensity_left:
-              {}
-            ir_intensity_right:
-              {}
-            ir_intensity_side_left:
-              {}
-            ir_omni:
-              {}
-            left_wheel:
-              {}
-            mouse:
-              {}
-            right_wheel:
-              {}
-      Update Interval: 0
-      Value: true
     - Alpha: 0.699999988079071
+      Binary representation: false
+      Binary threshold: 100
       Class: rviz_default_plugins/Map
       Color Scheme: map
       Draw Behind: false
@@ -219,6 +98,200 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bump_front_center:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bump_front_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bump_front_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bump_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bump_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bumper:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        button_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        button_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        button_power:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        cliff_front_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        cliff_front_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        cliff_side_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        cliff_side_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        front_caster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_front_center_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_front_center_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_front_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_front_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_intensity_side_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ir_omni:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mouse:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_drop_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        wheel_drop_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Mass Properties:
+        Inertia: false
+        Mass: false
+      Name: Create3
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /standard_dock_description
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        green_buoy_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        halo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        red_buoy_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        std_dock_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        yellow_buoy_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Mass Properties:
+        Inertia: false
+        Mass: false
+      Name: Dock
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

@@ -1,0 +1,99 @@
+# Copyright 2021 iRobot Corporation. All Rights Reserved.
+# @author Rodrigo Jose Causarano Nunez (rcausaran@irobot.com)
+#
+# Launch Create(R) 3 state publishers.
+
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import Command, PathJoinSubstitution
+from launch.substitutions.launch_configuration import LaunchConfiguration
+from launch_ros.actions import Node
+
+
+ARGUMENTS = [
+    DeclareLaunchArgument('visualize_rays', default_value='false',
+                          choices=['true', 'false'],
+                          description='Enable/disable ray visualization'),
+    DeclareLaunchArgument('namespace', default_value='',
+                          description='Robot namespace'),
+]
+
+
+def generate_launch_description():
+    pkg_create3_description = get_package_share_directory('create3_description')
+    xacro_file = PathJoinSubstitution([pkg_create3_description, 'urdf', 'create3.urdf.xacro'])
+    visualize_rays = LaunchConfiguration('visualize_rays')
+    namespace = LaunchConfiguration('namespace')
+
+    st_left_wheel = Node(
+        name='left_wheel_drop_stf',
+        package='tf2_ros', executable='static_transform_publisher',
+        arguments=[
+            '--x', '0',
+            '--y', '0.1165',
+            '--z', '0.0402',
+            '--roll', '-1.5707',
+            '--pitch', '0',
+            '--yaw', '0',
+            '--frame-id', 'base_link',
+            '--child-frame-id', 'wheel_drop_left'
+        ]
+    )
+    
+    st_right_wheel = Node(
+        name='right_wheel_drop_stf',
+        package='tf2_ros', executable='static_transform_publisher',
+        arguments=[
+            '--x', '0',
+            '--y', '-0.1165',
+            '--z', '0.0402',
+            '--roll', '-1.5707',
+            '--pitch', '0',
+            '--yaw', '0',
+            '--frame-id', 'base_link',
+            '--child-frame-id', 'wheel_drop_right'
+        ]
+    )
+
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[
+            {'use_sim_time': True},
+            {'robot_description':
+             Command(
+                  ['xacro', ' ', xacro_file, ' ',
+                   'visualize_rays:=', visualize_rays, ' ',
+                   'namespace:=', namespace])},
+        ],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
+    )
+
+    joint_state_publisher = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        parameters=[{'use_sim_time': True}],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
+    )
+
+    # Define LaunchDescription variable
+    ld = LaunchDescription(ARGUMENTS)
+
+    # Add nodes to LaunchDescription
+    ld.add_action(st_left_wheel)
+    ld.add_action(st_right_wheel)
+    ld.add_action(joint_state_publisher)
+    ld.add_action(robot_state_publisher)
+
+    return ld

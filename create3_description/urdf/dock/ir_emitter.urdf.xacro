@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="ir_emitter" params="name parent:=base_link *origin
+                                         max_range
+                                         aperture
+                                         update_rate:=1.0
+                                         min_range:=${7*cm2m}
+                                         visualize:=false" >
+
+    <!-- Physical link properties -->
+    <xacro:property name="mass" value="0.15" />
+    <xacro:property name="x"    value="0.014" />
+    <xacro:property name="y"    value="0.02" />
+    <xacro:property name="z"    value="0.008" />
+
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <xacro:inertial_cuboid mass="${mass}" x="${x}" y="${y}" z="${z}" />
+    </link>
+
+  </xacro:macro>
+</robot>

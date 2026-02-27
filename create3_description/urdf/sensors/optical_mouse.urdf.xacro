@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="optical_mouse" params="name:=mouse namespace parent_link:=base_link update_rate:=62 *origin" >
+
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}"/>
+      <child link="${name}"/>
+    </joint>
+
+    <link name="${name}">
+      <xacro:inertial_dummy />
+    </link>
+
+  </xacro:macro>
+</robot>
