@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(irobot_create_description)
+project(create3_description)
 
 find_package(ament_cmake REQUIRED)
 
