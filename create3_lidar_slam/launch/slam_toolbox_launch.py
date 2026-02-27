@@ -1,40 +1,59 @@
-#!/usr/bin/env python3
-# Copyright 2022 iRobot Corporation. All Rights Reserved.
+import os
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import (DeclareLaunchArgument, EmitEvent, LogInfo,
+                            RegisterEventHandler)
+from launch.conditions import IfCondition
+from launch.events import matches_action
+from launch.substitutions import (AndSubstitution, LaunchConfiguration,
+                                  NotSubstitution)
+from launch_ros.actions import LifecycleNode
+from launch_ros.event_handlers import OnStateTransition
+from launch_ros.events.lifecycle import ChangeState
+from lifecycle_msgs.msg import Transition
 
 
 def generate_launch_description():
-    # Evaluate at launch the value of the launch configuration 'use_sim_time' 
+    autostart = LaunchConfiguration('autostart')
+    use_lifecycle_manager = LaunchConfiguration("use_lifecycle_manager")
     use_sim_time = LaunchConfiguration('use_sim_time')
+    slam_params_file = LaunchConfiguration('slam_params_file')
 
-    # Declares an action to allow users to pass the sim time from the 
-    # CLI into the launch description as an argument.
-    declare_use_sim_time_argument = DeclareLaunchArgument(
-        'use_sim_time',
-        default_value='false',
-        description='Use simulation/Gazebo clock')
-    
     # Evaluate at launch the value of the launch configuration 'namespace' 
     namespace = LaunchConfiguration('namespace')
 
+    declare_autostart_cmd = DeclareLaunchArgument(
+        'autostart', default_value='true',
+        description='Automatically startup the slamtoolbox. '
+                    'Ignored when use_lifecycle_manager is true.')
+    declare_use_lifecycle_manager = DeclareLaunchArgument(
+        'use_lifecycle_manager', default_value='false',
+        description='Enable bond connection during node activation')
+    declare_use_sim_time_argument = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation/Gazebo clock')
+    declare_slam_params_file_cmd = DeclareLaunchArgument(
+        'slam_params_file',
+        default_value=os.path.join(get_package_share_directory("create3_lidar_slam"),
+                                   'config', 'mapper_params_online_async.yaml'),
+        description='Full path to the ROS2 parameters file to use for the slam_toolbox node')
+    
     # Declares an action to allow users to pass the robot namespace from the 
     # CLI into the launch description as an argument.
     namespace_argument = DeclareLaunchArgument(
         'namespace', 
         default_value='',
         description='Robot namespace')
-    
-    # Declares an action that will launch a node when executed by the launch description.
-    # This node is responsible for configuring and running slam toolbox.  
-    start_async_slam_toolbox_node = Node(
+
+    start_async_slam_toolbox_node = LifecycleNode(
         parameters=[
-          get_package_share_directory("create3_lidar_slam") + '/config/mapper_params_online_async.yaml',
-          {'use_sim_time': use_sim_time}
+          slam_params_file,
+          {
+            'use_lifecycle_manager': use_lifecycle_manager,
+            'use_sim_time': use_sim_time
+          }
         ],
         package='slam_toolbox',
         executable='async_slam_toolbox_node',
@@ -44,18 +63,47 @@ def generate_launch_description():
         # Remaps topics used by the 'slam_toolbox' package from absolute (with slash) to relative (no slash).
         # This is necessary to use namespaces with 'slam_toolbox'.
         remappings = [
-        ('/tf', 'tf'),
-        ('/tf_static', 'tf_static'),
-        ('/scan', 'scan'),
-        ('/map', 'map'),
-        ('/map_metadata', 'map_metadata')
-    ])
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static'),
+            ('/scan', 'scan'),
+            ('/map', 'map'),
+            ('/map_metadata', 'map_metadata')
+        ]
+    )
+
+    configure_event = EmitEvent(
+        event=ChangeState(
+          lifecycle_node_matcher=matches_action(start_async_slam_toolbox_node),
+          transition_id=Transition.TRANSITION_CONFIGURE
+        ),
+        condition=IfCondition(AndSubstitution(autostart, NotSubstitution(use_lifecycle_manager)))
+    )
+
+    activate_event = RegisterEventHandler(
+        OnStateTransition(
+            target_lifecycle_node=start_async_slam_toolbox_node,
+            start_state="configuring",
+            goal_state="inactive",
+            entities=[
+                LogInfo(msg="[LifecycleLaunch] Slamtoolbox node is activating."),
+                EmitEvent(event=ChangeState(
+                    lifecycle_node_matcher=matches_action(start_async_slam_toolbox_node),
+                    transition_id=Transition.TRANSITION_ACTIVATE
+                ))
+            ]
+        ),
+        condition=IfCondition(AndSubstitution(autostart, NotSubstitution(use_lifecycle_manager)))
+    )
 
     ld = LaunchDescription()
 
+    ld.add_action(declare_autostart_cmd)
+    ld.add_action(declare_use_lifecycle_manager)
     ld.add_action(declare_use_sim_time_argument)
+    ld.add_action(declare_slam_params_file_cmd)
     ld.add_action(namespace_argument)
     ld.add_action(start_async_slam_toolbox_node)
+    ld.add_action(configure_event)
+    ld.add_action(activate_event)
 
-    # Launches all named actions
     return ld
