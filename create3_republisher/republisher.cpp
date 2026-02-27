@@ -21,6 +21,7 @@
 #include "irobot_create_msgs/action/wall_follow.hpp"
 
 #include "rclcpp/rclcpp.hpp"
+#include "rclcpp/qos.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "rclcpp_action/create_client.hpp"
 #include "rclcpp_action/create_server.hpp"
@@ -259,7 +260,7 @@ private:
         executor_thread.detach();
 
         // IMPORTANT: the client stays in the default callback group; the new one is only for the server
-        auto client = this->create_client<ServiceT>(client_name, rmw_qos_profile_services_default, nullptr);
+        auto client = this->create_client<ServiceT>(client_name, rclcpp::ServicesQoS(), nullptr);
         auto server = this->create_service<ServiceT>(
             server_name,
             [this, client=client](typename ServiceT::Request::SharedPtr req, typename ServiceT::Response::SharedPtr res)
@@ -274,7 +275,7 @@ private:
                 res = future.get();
                 RCLCPP_INFO(this->get_logger(), "Forwarding service response from %s", client->get_service_name());
             },
-            rmw_qos_profile_services_default,
+            rclcpp::ServicesQoS(),
             cb_group);
 
         m_callback_groups.push_back(cb_group);
