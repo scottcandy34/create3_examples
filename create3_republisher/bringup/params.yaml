@@ -11,11 +11,11 @@
         "battery_state", "sensor_msgs/msg/BatteryState",
       # "cliff_intensity", "irobot_create_msgs/msg/IrIntensityVector",
         "dock_status", "irobot_create_msgs/msg/DockStatus",
-      # "hazard_detection", "irobot_create_msgs/msg/HazardDetectionVector",
+        "hazard_detection", "irobot_create_msgs/msg/HazardDetectionVector",
         "imu", "sensor_msgs/msg/Imu",
         "interface_buttons", "irobot_create_msgs/msg/InterfaceButtons",
-      # "ir_intensity", "irobot_create_msgs/msg/IrIntensityVector",
-      # "ir_opcode", "irobot_create_msgs/msg/IrOpcode",
+        "ir_intensity", "irobot_create_msgs/msg/IrIntensityVector",
+        "ir_opcode", "irobot_create_msgs/msg/IrOpcode",
       # "kidnap_status", "irobot_create_msgs/msg/KidnapStatus",
       # "mouse", "irobot_create_msgs/msg/Mouse",
         "odom", "nav_msgs/msg/Odometry",
@@ -31,12 +31,12 @@
         "cmd_audio", "irobot_create_msgs/msg/AudioNoteVector",
         "cmd_lightring", "irobot_create_msgs/msg/LightringLeds",
         "cmd_vel", "geometry_msgs/msg/Twist",
-        "cmd_vel_stamped", "geometry_msgs/msg/TwistStamped",
+        # "cmd_vel_stamped", "geometry_msgs/msg/TwistStamped",
       ]
       robot_services: [
-        "e_stop", "irobot_create_msgs/srv/EStop",
+        # "e_stop", "irobot_create_msgs/srv/EStop",
         "reset_pose", "irobot_create_msgs/srv/ResetPose",
-        "robot_power", "irobot_create_msgs/srv/RobotPower",
+        # "robot_power", "irobot_create_msgs/srv/RobotPower",
       ]
       robot_actions: [
         "audio_note_sequence", "irobot_create_msgs/action/AudioNoteSequence",
