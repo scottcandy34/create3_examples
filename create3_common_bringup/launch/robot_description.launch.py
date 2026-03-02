@@ -26,38 +26,6 @@ def generate_launch_description():
     visualize_rays = LaunchConfiguration('visualize_rays')
     namespace = LaunchConfiguration('namespace')
 
-    st_left_wheel = Node(
-        name='left_wheel_drop_stf',
-        package='tf2_ros', 
-        executable='static_transform_publisher',
-        arguments=[
-            '--x', '0',
-            '--y', '0.1165',
-            '--z', '0.0402',
-            '--roll', '-1.5707',
-            '--pitch', '0',
-            '--yaw', '0',
-            '--frame-id', 'base_link',
-            '--child-frame-id', 'wheel_drop_left'
-        ]
-    )
-
-    st_right_wheel = Node(
-        name='right_wheel_drop_stf',
-        package='tf2_ros', 
-        executable='static_transform_publisher',
-        arguments=[
-            '--x', '0',
-            '--y', '-0.1165',
-            '--z', '0.0402',
-            '--roll', '-1.5707',
-            '--pitch', '0',
-            '--yaw', '0',
-            '--frame-id', 'base_link',
-            '--child-frame-id', 'wheel_drop_right'
-        ]
-    )
-
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -77,25 +45,30 @@ def generate_launch_description():
         ]
     )
 
-    joint_state_publisher = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
+    # joint_state_publisher = Node(
+    #     package='joint_state_publisher',
+    #     executable='joint_state_publisher',
+    #     name='joint_state_publisher',
+    #     output='screen',
+    #     parameters=[{'use_sim_time': False}],
+    #     remappings=[
+    #         ('/tf', 'tf'),
+    #         ('/tf_static', 'tf_static')
+    #     ]
+    # )
+
+    dynamic_joint_state_publisher = Node(
+        package='dynamic_joint_state_publisher',
+        executable='dynamic_joint_state_publisher',
+        name='dynamic_joint_state_publisher',
         output='screen',
-        parameters=[{'use_sim_time': False}],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
-        ]
     )
 
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
 
     # Add nodes to LaunchDescription
-    ld.add_entity(st_left_wheel)
-    ld.add_entity(st_right_wheel)
-    ld.add_action(joint_state_publisher)
+    ld.add_action(dynamic_joint_state_publisher)
     ld.add_action(robot_state_publisher)
 
     return ld

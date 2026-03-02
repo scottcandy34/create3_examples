@@ -20,10 +20,13 @@ functional, while the 4 remaining ones are created as dummy links. -->
   <xacro:property name="link_name" value="${name}"/>
   <xacro:property name="joint_name" value="${name}_joint"/>
 
-  <joint name="${joint_name}" type="fixed">
+  <joint name="${joint_name}" type="prismatic">
     <parent link="${parent_link}"/>
     <child link="${link_name}"/>
     <xacro:insert_block name="origin"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.003" upper="0" effort="0" velocity="0"/>
+    <dynamics damping="10" friction="0.1"/>
   </joint>
   <link name="${link_name}">
     <visual>
