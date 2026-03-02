@@ -41,7 +41,7 @@ def generate_launch_description():
             '--child-frame-id', 'wheel_drop_left'
         ]
     )
-   
+
     st_right_wheel = Node(
         name='right_wheel_drop_stf',
         package='tf2_ros', 
@@ -64,7 +64,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[
-            {'use_sim_time': True},
+            {'use_sim_time': False},
             {'robot_description':
              Command(
                   ['xacro', ' ', xacro_file, ' ',
@@ -82,7 +82,7 @@ def generate_launch_description():
         executable='joint_state_publisher',
         name='joint_state_publisher',
         output='screen',
-        parameters=[{'use_sim_time': True}],
+        parameters=[{'use_sim_time': False}],
         remappings=[
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static')
