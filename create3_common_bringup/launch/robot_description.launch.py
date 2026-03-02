@@ -26,6 +26,38 @@ def generate_launch_description():
     visualize_rays = LaunchConfiguration('visualize_rays')
     namespace = LaunchConfiguration('namespace')
 
+    st_left_wheel = Node(
+        name='left_wheel_drop_stf',
+        package='tf2_ros', 
+        executable='static_transform_publisher',
+        arguments=[
+            '--x', '0',
+            '--y', '0.1165',
+            '--z', '0.0402',
+            '--roll', '-1.5707',
+            '--pitch', '0',
+            '--yaw', '0',
+            '--frame-id', 'base_link',
+            '--child-frame-id', 'wheel_drop_left'
+        ]
+    )
+   
+    st_right_wheel = Node(
+        name='right_wheel_drop_stf',
+        package='tf2_ros', 
+        executable='static_transform_publisher',
+        arguments=[
+            '--x', '0',
+            '--y', '-0.1165',
+            '--z', '0.0402',
+            '--roll', '-1.5707',
+            '--pitch', '0',
+            '--yaw', '0',
+            '--frame-id', 'base_link',
+            '--child-frame-id', 'wheel_drop_right'
+        ]
+    )
+
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -61,8 +93,8 @@ def generate_launch_description():
     ld = LaunchDescription(ARGUMENTS)
 
     # Add nodes to LaunchDescription
-    ld.add_action(st_left_wheel)
-    ld.add_action(st_right_wheel)
+    ld.add_entity(st_left_wheel)
+    ld.add_entity(st_right_wheel)
     ld.add_action(joint_state_publisher)
     ld.add_action(robot_state_publisher)
 
