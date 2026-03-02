@@ -58,7 +58,7 @@ def generate_launch_description():
     # )
 
     dynamic_joint_state_publisher = Node(
-        package='dynamic_joint_state_publisher',
+        package='create3_description',
         executable='dynamic_joint_state_publisher',
         name='dynamic_joint_state_publisher',
         output='screen',
