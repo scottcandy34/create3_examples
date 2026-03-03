@@ -30,6 +30,7 @@
         <cylinder length="0.1" radius="0.05"/>
       </geometry>
     </collision>
+    <xacro:inertial_cuboid mass="0.1" x="0.05" y="0.05" z="0.1"/>
   </link>
 
   <joint name="mount_to_laser_joint" type="fixed">
