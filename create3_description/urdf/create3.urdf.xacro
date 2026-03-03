@@ -11,8 +11,6 @@
   <xacro:include filename="$(find create3_description)/urdf/sensors/optical_mouse.urdf.xacro"/>
   <xacro:include filename="$(find create3_description)/urdf/wheel_with_wheeldrop.urdf.xacro" />
 
-  <!-- Removed gazebo arg -->
-
   <!-- Namespace -->
   <xacro:arg name="namespace"                    default=""/>
 

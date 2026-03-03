@@ -4,7 +4,7 @@
       angle_compensate: true
       channel_type: serial
       flip_x_axis: false
-      frame_id: laser_frame
+      frame_id: laser_link
       inverted: false
       scan_mode: ''
       serial_baudrate: 115200
