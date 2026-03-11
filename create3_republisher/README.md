@@ -24,7 +24,7 @@ For example, this occurs when having your Create 3 robot connected to a Raspberr
 
 ## Prerequisites
 
- - Your robot and other ROS 2 applications should be on ROS 2 Humble.
+ - Your robot and other ROS 2 applications should be on ROS 2 Jazzy.
 
  - You should use Fast-DDS as your RMW on the robot and throughout all your applications.
  This approach is not RMW-specific, but the instructions and the provided DDS config file are.

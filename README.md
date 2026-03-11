@@ -4,7 +4,7 @@ Example nodes to drive the iRobot® Create® 3 Educational Robot.
 
 ### Dependencies
 
-Make sure that ROS 2 Humble is already installed in your system.
+Make sure that ROS 2 Jazzy is already installed in your system.
 You can follow the [official instructions](https://docs.ros.org/en/jazzy/Installation.html).
 
 ### Build instructions
