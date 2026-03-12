@@ -14,4 +14,4 @@
       
       # True turns off lidar motor when scan topic is not subscribed to. 
       # False runs lidar motor constantly. 
-      auto_standby: true
+      auto_standby: false

@@ -47,6 +47,14 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    power_saver_node = Node(
+        package='create3_lidar_slam',
+        executable='lidar_power_saver',
+        name='lidar_power_saver',
+        output='screen',
+        namespace=namespace   # respects the same namespace as everything else
+    )
+
     # Launches all named actions
     return LaunchDescription([
         namespace_argument,
@@ -54,5 +62,9 @@ def generate_launch_description():
         TimerAction(
             period=2.0,
             actions=[rplidar_node]
+        ),
+        TimerAction(
+            period=4.0,                     # ← starts ~2 s after rplidar_node
+            actions=[power_saver_node]
         )
     ])
