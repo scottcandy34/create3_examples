@@ -2,8 +2,8 @@
 # Copyright 2022 iRobot Corporation. All Rights Reserved.
 
 from launch import LaunchDescription
-from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, TimerAction
+from launch_ros.actions import Node, PushRosNamespace
+from launch.actions import DeclareLaunchArgument, TimerAction, GroupAction
 from launch.substitutions import LaunchConfiguration
 from ament_index_python.packages import get_package_share_directory
 
@@ -32,7 +32,7 @@ def generate_launch_description():
         remappings=[
             ('/tf_static', 'tf_static'),
             ('/tf', 'tf')],
-        namespace=namespace
+        output='screen'
     )
 
     # Declares an action that will launch a node when executed by the launch description.
@@ -44,7 +44,6 @@ def generate_launch_description():
         parameters=[
             get_package_share_directory("create3_lidar_slam") + '/config/rplidar_node.yaml'
             ],
-        namespace=namespace
     )
 
     power_saver_node = Node(
@@ -52,19 +51,26 @@ def generate_launch_description():
         executable='lidar_power_saver',
         name='lidar_power_saver',
         output='screen',
-        namespace=namespace   # respects the same namespace as everything else
+    )
+
+    # === NEW: GroupAction with PushRosNamespace (fixes inclusion issues) ===
+    rplidar_group = GroupAction(
+        actions=[
+            PushRosNamespace(namespace),
+            static_transform_node,
+            TimerAction(
+                period=2.0,
+                actions=[rplidar_node]
+            ),
+            TimerAction(
+                period=4.0,          # starts ~2 s after RPLIDAR
+                actions=[power_saver_node]
+            )
+        ]
     )
 
     # Launches all named actions
     return LaunchDescription([
         namespace_argument,
-        static_transform_node,
-        TimerAction(
-            period=2.0,
-            actions=[rplidar_node]
-        ),
-        TimerAction(
-            period=4.0,                     # ← starts ~2 s after rplidar_node
-            actions=[power_saver_node]
-        )
+        rplidar_group
     ])
