@@ -6,7 +6,7 @@
       flip_x_axis: false
       frame_id: laser_link
       inverted: false
-      scan_mode: ''
+      scan_mode: 'Boost'
       serial_baudrate: 115200
       serial_port: /dev/ttyUSB0
       topic_name: scan
